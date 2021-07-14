@@ -2,11 +2,14 @@ import React, { useRef, useState, useEffect } from 'react'
 import { View, Dimensions, FlatList, Image, StyleSheet, Text, TouchableHighlight } from 'react-native'
 import { Video, AVPlaybackStatus } from 'expo-av';
 import * as Progress from 'react-native-progress';
+import { createStackNavigator, useHeaderHeight } from '@react-navigation/stack';
 
 const { width, height } = Dimensions.get('window')
 
 
 const PlayList = () => {
+
+    const headerHeight = useHeaderHeight();
 
   let Data = [{ 
       id: 1,
@@ -88,7 +91,7 @@ const PlayList = () => {
 
 
 
-  handleVideoPress = async(item, index) => {
+  const handleVideoPress = async(item, index) => {
         if(currentVideo.duration!==1){
             currentVideo.duration = duration;
         }
@@ -101,7 +104,6 @@ const PlayList = () => {
         setDuration(item.duration);
         
         await video.current.playFromPositionAsync(item.duration)
-    //console.log(item);
   }
 
   const renderItem = ({ item, index }) => (
@@ -156,10 +158,10 @@ const PlayList = () => {
   }
 
   return (
-    <View> 
+    <View style={{ paddingTop: 2 }}> 
       <Video
           ref={video}
-          style={{ width: 400, height: 400*0.565, justifyContent:'center', alignSelf:'center', paddingTop: 100 }}
+          style={{ width: width-10, height: (width-10)*0.565, justifyContent:'center', alignSelf:'center' }}
           source={{ uri: currentVideo.sources }}
           useNativeControls
           resizeMode="contain"
@@ -171,7 +173,7 @@ const PlayList = () => {
           data={videoData}
           renderItem={renderItem} 
           keyExtractor={item => item.title}
-          style={{ height: height- 400*0.565-80 }}
+          style={{ height: height- (width-10)*0.565 -headerHeight }}
           extraData={duration}
       />
     </View>

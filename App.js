@@ -6,7 +6,6 @@ import PlayList from './src/components/PlayList';
 const App = () => {
   const Stack = createStackNavigator();
 
-
   return (
     <NavigationContainer>
       <Stack.Navigator>
